@@ -47,39 +47,14 @@
 {
     self.cameraManager.sessionPreset = AVCaptureSessionPresetHigh;
     
-    //  身份证正面识别
-    if (cardType == CardIDFront) {
+    //  身份证识别
+    if (cardType == CardIDFront || cardType == CardIDDown) {
         
         if ([self.cameraManager configIDScanManager]) {
             UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
             [self.view insertSubview:view atIndex:0];
             AVCaptureVideoPreviewLayer *preLayer = [AVCaptureVideoPreviewLayer layerWithSession: self.cameraManager.captureSession];
             preLayer.frame = [UIScreen mainScreen].bounds;
-            preLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-            [view.layer addSublayer:preLayer];
-            
-            
-            //  加载扫描试图
-            WYIDCardScaningView *overlayView = [[WYIDCardScaningView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-            [overlayView scaningCardIDWithType:ScaningCardIDWithFront];
-            
-            [self.view addSubview:overlayView];
-            [self.view bringSubviewToFront:overlayView];
-        }
-        
-        else {
-            NSLog(@"无法打开相机");
-        }
-    }
-    
-    
-    //  身份证反面识别
-    else if (cardType == CardIDDown) {
-        if ([self.cameraManager configIDDownScanManager]) {
-            UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-            [self.view insertSubview:view atIndex:0];
-            AVCaptureVideoPreviewLayer *preLayer = [AVCaptureVideoPreviewLayer layerWithSession: self.cameraManager.captureSession];
-            preLayer.frame = [UIScreen mainScreen].bounds;
             
             preLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
             [view.layer addSublayer:preLayer];
@@ -87,15 +62,25 @@
             
             //  加载扫描试图
             WYIDCardScaningView *overlayView = [[WYIDCardScaningView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-            [overlayView scaningCardIDWithType:ScaningCardIDWithDown];
+            if (cardType == CardIDFront) {
+                [overlayView scaningCardIDWithType:ScaningCardIDWithFront];
+            }
+            else if (cardType == CardIDDown)
+            {
+                [overlayView scaningCardIDWithType:ScaningCardIDWithDown];
+            }
             
             [self.view addSubview:overlayView];
             [self.view bringSubviewToFront:overlayView];
+            
         }
         
         else {
             NSLog(@"无法打开相机");
         }
+        
+        
+        
     }
     
     
@@ -118,16 +103,17 @@
             [self.view addSubview:overlayView];
             [self.view bringSubviewToFront:overlayView];
             
+            
         }
         else {
+            
             NSLog(@"打开相机失败");
+            
         }
         
         
     }
 }
-
-
 
 -(void)dealloc
 {

@@ -10,16 +10,9 @@
 
 @interface WYScanManager : WYScanManagerControl
 
-/** 银行卡正面 */
 - (BOOL)configBankScanManager;
 
-
-/** 身份证正面 */
 - (BOOL)configIDScanManager;
-
-
-/** 身份证反面 */
-- (BOOL)configIDDownScanManager;
 
 
 @end

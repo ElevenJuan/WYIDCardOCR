@@ -23,17 +23,9 @@
 - (BOOL)configIDScanManager {
     [self configIDScan];
     self.verify = YES;
-    self.scanType = IDScanFrontType;
+    self.scanType = IDScanType;
     return [self configSession];
 }
-
-- (BOOL)configIDDownScanManager {
-    [self configIDScan];
-    self.verify = YES;
-    self.scanType = IDScanDownType;
-    return [self configSession];
-}
-
 
 - (BOOL)configSession {
     [self resetConfig];
@@ -94,13 +86,10 @@
                     [self parseBankImageBuffer:imageBuffer];
                 }
                     break;
-                case IDScanFrontType: {
-                    [self parseIDFrontCardImageBuffer:imageBuffer];
+                case IDScanType: {
+                    [self parseIDCardImageBuffer:imageBuffer];
                 }
                     break;
-                case IDScanDownType: {
-                    [self parseIDDownCardImageBuffer:imageBuffer];
-                }
                 default:
                     break;
             }

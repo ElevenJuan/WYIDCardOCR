@@ -22,32 +22,21 @@
 
 - (void)doSomethingWhenWillDisappear;
 
+- (void)parseIDCardImageBuffer:(CVImageBufferRef)imageBuffer;
 
-/** 识别身份证信息 */
-- (void)parseIDFrontCardImageBuffer:(CVImageBufferRef)imageBuffer;
-
-/** 识别身份证反面信息 */
-- (void)parseIDDownCardImageBuffer:(CVImageBufferRef)imageBuffer;
-
-/** 识别银行卡信息 */
 - (void)parseBankImageBuffer:(CVImageBufferRef)imageBuffer;
 
-/** 选择前置和后置 */
+//选择前置和后置
 - (BOOL)switchCameras;
-
-/** 闪关灯 */
+// 闪关灯
 - (void)setFlashMode:(AVCaptureFlashMode)flashMode;
-
-/** 手电筒 */
+// 手电筒
 - (void)setTorchMode:(AVCaptureTorchMode)torchMode;
-
-/** 焦距 */
+// 焦距
 - (void)focusAtPoint:(CGPoint)point;
-
-/** 曝光量 */
+// 曝光量
 - (void)exposeAtPoint:(CGPoint)point;
-
-/** 重置曝光 */
+//重置曝光
 - (void)resetFocusAndExposureModes;
 
 
