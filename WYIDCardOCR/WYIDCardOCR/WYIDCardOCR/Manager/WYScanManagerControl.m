@@ -103,13 +103,11 @@
             model.bankName = bank;
             
             
-            
             CGSize size = CGSizeMake(width, height);
             CGRect effectRect = [WYRectManager getEffectImageRect:size];
             CGRect rect = [WYRectManager getGuideFrame:effectRect];
             UIImage *image = [UIImage getImageStream:imageBuffer];
             UIImage *subImg = [UIImage getSubImage:rect inImage:image];
-            
             
             
             model.bankImage = subImg;
@@ -125,7 +123,8 @@
 }
 
 
-- (void)parseIDCardImageBuffer:(CVImageBufferRef)imageBuffer {
+
+- (void)parseIDFrontCardImageBuffer:(CVImageBufferRef)imageBuffer {
     
     WYScanResultModel *idInfo = nil;
     
@@ -211,11 +210,14 @@
     
     if (idInfo != nil) {
         
-        // 播放一下“拍照”的声音，模拟拍照
-        AudioServicesPlaySystemSound(1108);
-        
-        if ([self.captureSession isRunning]) {
-            [self.captureSession stopRunning];
+        if (!idInfo.issue || !idInfo.valid) {
+            
+            // 播放一下“拍照”的声音，模拟拍照
+            AudioServicesPlaySystemSound(1108);
+            
+            if ([self.captureSession isRunning]) {
+                [self.captureSession stopRunning];
+            }
         }
         
         
@@ -229,11 +231,133 @@
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [self.idCardScanSuccess sendNext:idInfo];
         });
+        
     }
     
     CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
     self.isInProcessing = NO;
+    
+    
 }
+
+
+
+- (void)parseIDDownCardImageBuffer:(CVImageBufferRef)imageBuffer
+{
+    WYScanResultModel *idInfo = nil;
+    
+    size_t width= CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    CVPlanarPixelBufferInfo_YCbCrBiPlanar *planar = CVPixelBufferGetBaseAddress(imageBuffer);
+    size_t offset = NSSwapBigIntToHost(planar->componentInfoY.offset);
+    size_t rowBytes = NSSwapBigIntToHost(planar->componentInfoY.rowBytes);
+    unsigned char* baseAddress = (unsigned char *)CVPixelBufferGetBaseAddress(imageBuffer);
+    unsigned char* pixelAddress = baseAddress + offset;
+    
+    static unsigned char *buffer = NULL;
+    if (buffer == NULL) {
+        buffer = (unsigned char*)malloc(sizeof(unsigned char) * width * height);
+    }
+    memcpy(buffer, pixelAddress, sizeof(unsigned char) * width * height);
+    
+    unsigned char pResult[1024];
+    int ret = EXCARDS_RecoIDCardData(buffer, (int)width, (int)height, (int)rowBytes, (int)8, (char*)pResult, sizeof(pResult));
+    
+    if (ret <= 0) {
+        //        NSLog(@"ret=[%d]", ret);
+    }
+    else {
+        //        NSLog(@"ret=[%d]", ret);
+        
+        
+        char ctype;
+        char content[256];
+        int xlen;
+        int i = 0;
+        
+        idInfo = [WYScanResultModel new];
+        ctype = pResult[i++];
+        idInfo.type = ctype;
+        while(i < ret){
+            ctype = pResult[i++];
+            for(xlen = 0; i < ret; ++i){
+                if(pResult[i] == ' ') { ++i; break; }
+                content[xlen++] = pResult[i];
+            }
+            content[xlen] = 0;
+            if(xlen) {
+                NSStringEncoding gbkEncoding =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+                if(ctype == 0x21)
+                    idInfo.code = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+                else if(ctype == 0x22)
+                    idInfo.name = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+                else if(ctype == 0x23)
+                    idInfo.gender = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+                else if(ctype == 0x24)
+                    idInfo.nation = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+                else if(ctype == 0x25)
+                    idInfo.address = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+                else if(ctype == 0x26)
+                    idInfo.issue = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+                else if(ctype == 0x27)
+                    idInfo.valid = [NSString stringWithCString:(char *)content encoding:gbkEncoding];
+            }
+        }
+        
+        static WYScanResultModel *lastIdInfo = nil;
+        if (self.verify) {
+            if (lastIdInfo == nil) {
+                lastIdInfo = idInfo;
+                idInfo = nil;
+            }
+            else{
+                if (![lastIdInfo isEqual:idInfo]){
+                    lastIdInfo = idInfo;
+                    idInfo = nil;
+                }
+            }
+        }
+        if ([lastIdInfo isOK]) {
+            //            NSLog(@"%@", [lastIdInfo toString]);
+        } else {
+            idInfo = nil;
+        }
+    }
+    
+    
+    if (idInfo != nil) {
+        
+        
+        if (idInfo.issue || idInfo.valid) {
+            
+            // 播放一下“拍照”的声音，模拟拍照
+            AudioServicesPlaySystemSound(1108);
+            
+            if ([self.captureSession isRunning]) {
+                [self.captureSession stopRunning];
+            }
+            
+        }
+        
+            CGSize size = CGSizeMake(width, height);
+            CGRect effectRect = [WYRectManager getEffectImageRect:size];
+            CGRect rect = [WYRectManager getGuideFrame:effectRect];
+            UIImage *image = [UIImage getImageStream:imageBuffer];
+            UIImage *subImg = [UIImage getSubImage:rect inImage:image];
+            idInfo.idImage = subImg;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+                [self.idCardScanSuccess sendNext:idInfo];
+            });
+        }
+        
+        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+        self.isInProcessing = NO;
+            
+       
+}
+
 
 
 //选择前置和后置

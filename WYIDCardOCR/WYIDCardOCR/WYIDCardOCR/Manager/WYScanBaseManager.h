@@ -19,8 +19,9 @@
 
 typedef NS_ENUM(NSUInteger, kScanType)
 {
-    BankScanType,   // 银行卡
-    IDScanType      // 身份证
+    BankScanType,       // 银行卡
+    IDScanFrontType,    // 身份证正面
+    IDScanDownType      // 身份证反面
 };
 
 @interface WYScanBaseManager : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate,AVCaptureMetadataOutputObjectsDelegate>
