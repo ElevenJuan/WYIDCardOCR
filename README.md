@@ -54,7 +54,9 @@ Privacy - Photo Library Usage Description       是否允许访问相册
 本代码参考自[mxl123/IDAndBankCard](https://github.com/mxl123/IDAndBankCard)，非常感谢[mxl123](https://github.com/mxl123)大神的开源！
 
 
-## 界面展示
+
+
+## 真机运行
 
 ![WYIDCardOCR-拍照正面](https://github.com/unseim/WYIDCardOCR/blob/master/Image/拍照正面.png)
 ![WYIDCardOCR-拍照反面](https://github.com/unseim/WYIDCardOCR/blob/master/Image/拍照反面.png)
