@@ -27,7 +27,7 @@ Privacy - Photo Library Usage Description       是否允许访问相册
 
 解决方法：
 
-在TARGETS 中的 Buid Setting 下找到 Enable Bitcode 将其设置为NO。
+在TARGETS 中的 Buid Setting 下找到 Enable Bitcode 将其设置为NO， 将 Enable Testability 设置为 NO。
 
 3、在你的项目中的相应处倒入头文件：
 
