@@ -22,6 +22,8 @@
 /** 证件扫描类型 */
 @property (nonatomic, assign) CardType cardInfo;
 
+@property (nonatomic,   copy) ScanCarInfo scanInfo;
+
 
 @end
 
@@ -123,72 +125,7 @@
 /** 扫描完成 */
 - (void)scanDidFinishCarInfo:(ScanCarInfo)carInfo
 {
-    //  正面
-    if (self.cardInfo == CardIDFront) {
-        [self.cameraManager.idCardScanSuccess subscribeNext:^(id result)
-         {
-             WYScanResultModel *model = (WYScanResultModel *)result;
-             if (!model.valid || !model.issue)
-             {
-                 
-                 carInfo(CardIDFront, model);
-                 
-                 // 身份证信息识别完毕后，就将videoDataOutput的代理去掉，防止频繁调用AVCaptureVideoDataOutputSampleBufferDelegate方法而引起的“混乱”
-//                 if (self.cameraManager.videoDataOutput.sampleBufferDelegate) {
-//                     [self.cameraManager.videoDataOutput setSampleBufferDelegate:nil queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-//                 }
-                 
-                 
-             }
-             
-         }];
-    }
-    
-    
-    //  反面
-    else if (self.cardInfo == CardIDDown) {
-        [self.cameraManager.idCardScanSuccess subscribeNext:^(id result)
-         {
-             WYScanResultModel *model = (WYScanResultModel *)result;
-             if (model.valid || model.issue)
-             {
-                 
-                 carInfo(CardIDDown, model);
-                 
-                 // 身份证信息识别完毕后，就将videoDataOutput的代理去掉，防止频繁调用AVCaptureVideoDataOutputSampleBufferDelegate方法而引起的“混乱”
-//                 if (self.cameraManager.videoDataOutput.sampleBufferDelegate) {
-//                     [self.cameraManager.videoDataOutput setSampleBufferDelegate:nil queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-//                 }
-             }
-             
-         }];
-    }
-    
-    
-    //  银行卡
-    else if (self.cardInfo == CardIDBank)
-    {
-        [self.cameraManager.bankScanSuccess subscribeNext:^(id result)
-         {
-             
-             WYScanResultModel *model = (WYScanResultModel *)result;
-             carInfo(CardIDBank, model);
-             
-             // 身份证信息识别完毕后，就将videoDataOutput的代理去掉，防止频繁调用AVCaptureVideoDataOutputSampleBufferDelegate方法而引起的“混乱”
-//             if (self.cameraManager.videoDataOutput.sampleBufferDelegate) {
-//                 [self.cameraManager.videoDataOutput setSampleBufferDelegate:nil queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-//             }
-             
-         }];
-    }
-    
-    
-    
-    [self.cameraManager.scanError subscribeNext:^(id x) {
-        // 扫描失败的提醒
-    }];
-    
-    
+    self.scanInfo = carInfo;
 }
 
 
@@ -245,6 +182,64 @@
     }
 }
 
+
+#pragma mark- WYScanResultDelegate
+- (void)didScan:(WYScanResultModel *)model error:(NSError *)error
+{
+    //  正面
+    if (self.cardInfo == CardIDFront) {
+        if (model) {
+            if (!model.valid || !model.issue)
+            {
+                self.scanInfo(CardIDFront, model);
+                
+                // 身份证信息识别完毕后，就将videoDataOutput的代理去掉，防止频繁调用AVCaptureVideoDataOutputSampleBufferDelegate方法而引起的“混乱”
+                //                 if (self.cameraManager.videoDataOutput.sampleBufferDelegate) {
+                //                     [self.cameraManager.videoDataOutput setSampleBufferDelegate:nil queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+                //                 }
+                
+                
+            }
+        }
+    }
+    
+    
+    //  反面
+    else if (self.cardInfo == CardIDDown) {
+        if (model) {
+            if (model.valid || model.issue)
+            {
+                
+                self.scanInfo(CardIDDown, model);
+                
+                // 身份证信息识别完毕后，就将videoDataOutput的代理去掉，防止频繁调用AVCaptureVideoDataOutputSampleBufferDelegate方法而引起的“混乱”
+                //                 if (self.cameraManager.videoDataOutput.sampleBufferDelegate) {
+                //                     [self.cameraManager.videoDataOutput setSampleBufferDelegate:nil queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+                //                 }
+            }
+        }
+    }
+    
+    
+    //  银行卡
+    else if (self.cardInfo == CardIDBank)
+    {
+        if (model) {
+            self.scanInfo(CardIDBank, model);
+            // 身份证信息识别完毕后，就将videoDataOutput的代理去掉，防止频繁调用AVCaptureVideoDataOutputSampleBufferDelegate方法而引起的“混乱”
+            //             if (self.cameraManager.videoDataOutput.sampleBufferDelegate) {
+            //                 [self.cameraManager.videoDataOutput setSampleBufferDelegate:nil queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+            //             }
+        }
+    }
+    
+    
+    if (error) {
+        // 扫描失败的提醒
+        
+    }
+    
+}
 
 
 

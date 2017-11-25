@@ -36,12 +36,9 @@
 		9DA1A4831F0E2971000AC801 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DA1A4821F0E2971000AC801 /* Assets.xcassets */; };
 		9DA1A4861F0E2971000AC801 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA1A4841F0E2971000AC801 /* LaunchScreen.storyboard */; };
 		9DA1A4901F0E2A65000AC801 /* PodFile in Resources */ = {isa = PBXBuildFile; fileRef = 9DA1A48F1F0E2A65000AC801 /* PodFile */; };
-		F505E037BA172C29A8EB3B4B /* libPods-WYIDCardOCR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D5D8B9501D2DAB4FA92EF0 /* libPods-WYIDCardOCR.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		016D0F51C7B2F81D0EBF224B /* Pods-WYIDCardOCR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYIDCardOCR.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYIDCardOCR/Pods-WYIDCardOCR.release.xcconfig"; sourceTree = "<group>"; };
-		6ED5A7865038A87CA0519034 /* Pods-WYIDCardOCR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYIDCardOCR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WYIDCardOCR/Pods-WYIDCardOCR.debug.xcconfig"; sourceTree = "<group>"; };
 		9D34CEA71F0FCEB90025E6E0 /* BankCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCard.h; sourceTree = "<group>"; };
 		9D34CEA81F0FCEB90025E6E0 /* exbankcard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exbankcard.h; sourceTree = "<group>"; };
 		9D34CEAA1F0FCEB90025E6E0 /* exbankcardcore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exbankcardcore.h; sourceTree = "<group>"; };
@@ -96,7 +93,6 @@
 		9DA1A4851F0E2971000AC801 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9DA1A4871F0E2971000AC801 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DA1A48F1F0E2A65000AC801 /* PodFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PodFile; sourceTree = "<group>"; };
-		C1D5D8B9501D2DAB4FA92EF0 /* libPods-WYIDCardOCR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WYIDCardOCR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +100,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F505E037BA172C29A8EB3B4B /* libPods-WYIDCardOCR.a in Frameworks */,
 				9D34CECE1F0FCEB90025E6E0 /* libbankcard.a in Frameworks */,
 				9D34CED01F0FCEB90025E6E0 /* libexidcardios.a in Frameworks */,
 			);
@@ -116,18 +111,8 @@
 		0E6074ACCB7EC97737EB82BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C1D5D8B9501D2DAB4FA92EF0 /* libPods-WYIDCardOCR.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		825C49EE7FF137D81F5FFF63 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6ED5A7865038A87CA0519034 /* Pods-WYIDCardOCR.debug.xcconfig */,
-				016D0F51C7B2F81D0EBF224B /* Pods-WYIDCardOCR.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		9D34CEA51F0FCEB90025E6E0 /* WYIDCardOCR */ = {
@@ -256,7 +241,6 @@
 			children = (
 				9DA1A4751F0E2971000AC801 /* WYIDCardOCR */,
 				9DA1A4741F0E2971000AC801 /* Products */,
-				825C49EE7FF137D81F5FFF63 /* Pods */,
 				0E6074ACCB7EC97737EB82BE /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -303,12 +287,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9DA1A48A1F0E2971000AC801 /* Build configuration list for PBXNativeTarget "WYIDCardOCR" */;
 			buildPhases = (
-				AD76C2A1A3427BA383A89AB1 /* [CP] Check Pods Manifest.lock */,
 				9DA1A46F1F0E2971000AC801 /* Sources */,
 				9DA1A4701F0E2971000AC801 /* Frameworks */,
 				9DA1A4711F0E2971000AC801 /* Resources */,
-				94B87BFA9782DD877C231BA9 /* [CP] Embed Pods Frameworks */,
-				27530D4A7E99D741B79487F9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -331,6 +312,7 @@
 				TargetAttributes = {
 					9DA1A4721F0E2971000AC801 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 27LXXFK99P;
 					};
 				};
 			};
@@ -369,54 +351,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		27530D4A7E99D741B79487F9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WYIDCardOCR/Pods-WYIDCardOCR-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		94B87BFA9782DD877C231BA9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WYIDCardOCR/Pods-WYIDCardOCR-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AD76C2A1A3427BA383A89AB1 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9DA1A46F1F0E2971000AC801 /* Sources */ = {
@@ -550,9 +484,9 @@
 		};
 		9DA1A48B1F0E2971000AC801 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ED5A7865038A87CA0519034 /* Pods-WYIDCardOCR.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 27LXXFK99P;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;
 				INFOPLIST_FILE = WYIDCardOCR/Info.plist;
@@ -563,16 +497,16 @@
 					"$(PROJECT_DIR)/WYIDCardOCR/WYIDCardOCR/libexidcard",
 					"$(PROJECT_DIR)/WYIDCardOCR/WYIDCardOCR/bank_io/exbankcardcore",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.IDCardOCR.www;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quanming.app.ios0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		9DA1A48C1F0E2971000AC801 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 016D0F51C7B2F81D0EBF224B /* Pods-WYIDCardOCR.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 27LXXFK99P;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;
 				INFOPLIST_FILE = WYIDCardOCR/Info.plist;
@@ -583,7 +517,7 @@
 					"$(PROJECT_DIR)/WYIDCardOCR/WYIDCardOCR/libexidcard",
 					"$(PROJECT_DIR)/WYIDCardOCR/WYIDCardOCR/bank_io/exbankcardcore",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.IDCardOCR.www;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quanming.app.ios0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

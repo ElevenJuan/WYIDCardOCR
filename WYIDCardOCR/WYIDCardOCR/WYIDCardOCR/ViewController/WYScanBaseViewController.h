@@ -10,7 +10,7 @@
 
 #define iOS9Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 
-@interface WYScanBaseViewController : UIViewController
+@interface WYScanBaseViewController : UIViewController <WYScanResultDelegate>
 
 @property (nonatomic, strong) WYScanManager *cameraManager;
 
