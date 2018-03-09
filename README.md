@@ -29,6 +29,24 @@ Privacy - Photo Library Usage Description       是否允许访问相册
 
 在TARGETS 中的 Buid Setting 下找到 Enable Bitcode 将其设置为NO； Xcode8 环境下会检测.a 文件， 所以将 Enable Testability 设置为 NO。
 
+
+# 可能还会报错
+```
+
+Undefined symbols for architecture arm64:
+  "_ZIM_SaveImage", referenced from:
+      ImgSave(tagIMG, char const*) in libbankcard.a(gjimage.o)
+  "_ZIM_LoadImage", referenced from:
+      ImgLoad(tagIMG&, char const*) in libbankcard.a(gjimage.o)
+  "_ZIM_DoneImage", referenced from:
+      ImgLoad(tagIMG&, char const*) in libbankcard.a(gjimage.o)
+ld: symbol(s) not found for architecture arm64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+```
+
+##### 解决办法：build settings 搜索 ENABLE_TESTABILITY  改为NO
+
+
 3、在你的项目中的相应处倒入头文件：
 
 `#import "WYIDScanViewController.h"`

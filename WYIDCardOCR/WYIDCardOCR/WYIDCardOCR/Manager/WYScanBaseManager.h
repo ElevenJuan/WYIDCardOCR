@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
-#import <ReactiveCocoa/ReactiveCocoa.h>
 #import "WYRectManager.h"
 #import "UIImage+Extend.h"
 #import "WYScanResultModel.h"
@@ -23,16 +22,23 @@ typedef NS_ENUM(NSUInteger, kScanType)
     IDScanType      // 身份证
 };
 
+@protocol WYScanOutputSampleBufferDelegate <NSObject>
+@optional
+- (void)didOutputSampleBuffer:(id)sampleBuffer;
+@end
+
+@protocol WYScanResultDelegate <NSObject>
+@optional
+- (void)didScan:(WYScanResultModel *)model error:(NSError *)error;
+
+@end
+
+
 @interface WYScanBaseManager : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate,AVCaptureMetadataOutputObjectsDelegate>
 
 @property (nonatomic, assign) BOOL verify;
 
 @property (nonatomic, assign) kScanType scanType;
-
-@property (nonatomic, strong) RACSubject *receiveSubject;
-@property (nonatomic, strong) RACSubject *bankScanSuccess;
-@property (nonatomic, strong) RACSubject *idCardScanSuccess;
-@property (nonatomic, strong) RACSubject *scanError;
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 
@@ -41,6 +47,11 @@ typedef NS_ENUM(NSUInteger, kScanType)
 @property (nonatomic, assign) BOOL isInProcessing;
 
 @property (nonatomic, assign) BOOL isHasResult;
+
+@property (nonatomic, assign) id<WYScanOutputSampleBufferDelegate> outputBufferDelegate;
+@property (nonatomic, assign) id<WYScanResultDelegate> resultDelegate;
+
+
 
 //输出流
 @property (nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;

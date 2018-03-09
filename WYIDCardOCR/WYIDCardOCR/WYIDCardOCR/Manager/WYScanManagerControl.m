@@ -116,7 +116,10 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-                [self.bankScanSuccess sendNext:model];
+                if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+                    [self.resultDelegate didScan:model error:nil];
+                }
+                
             });
         }
     }
@@ -227,7 +230,9 @@
         idInfo.idImage = subImg;
         dispatch_async(dispatch_get_main_queue(), ^{
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            [self.idCardScanSuccess sendNext:idInfo];
+            if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+                [self.resultDelegate didScan:idInfo error:nil];
+            }
         });
     }
     
@@ -263,7 +268,9 @@
         [self.captureSession commitConfiguration];
     }
     else {
-        [self.scanError sendNext:error];
+        if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+            [self.resultDelegate didScan:nil error:error];
+        }
         return NO;
     }
     return YES;
@@ -280,7 +287,9 @@
             [device unlockForConfiguration];
         }
         else {
-            [self.scanError sendNext:error];
+            if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+                [self.resultDelegate didScan:nil error:error];
+            }
         }
     }
 }
@@ -296,7 +305,9 @@
             [device unlockForConfiguration];
         }
         else {
-            [self.scanError sendNext:error];
+            if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+                [self.resultDelegate didScan:nil error:error];
+            }
         }
     }
 }
@@ -313,7 +324,9 @@
             [device unlockForConfiguration];
         }
         else {
-            [self.scanError sendNext:error];
+            if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+                [self.resultDelegate didScan:nil error:error];
+            }
         }
     }
 }
@@ -342,7 +355,9 @@ static const NSString *THCameraAdjustingExposureContext;
             [device unlockForConfiguration];
         }
         else {
-            [self.scanError sendNext:error];
+            if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+                [self.resultDelegate didScan:nil error:error];
+            }
         }
     }
 }
@@ -366,7 +381,9 @@ static const NSString *THCameraAdjustingExposureContext;
                     device.exposureMode = AVCaptureExposureModeLocked;
                     [device unlockForConfiguration];
                 } else {
-                    [self.scanError sendNext:error];
+                    if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+                        [self.resultDelegate didScan:nil error:error];
+                    }
                 }
             });
         }
@@ -410,7 +427,9 @@ static const NSString *THCameraAdjustingExposureContext;
         
         [device unlockForConfiguration];
     } else {
-        [self.scanError sendNext:error];
+        if ([self.resultDelegate respondsToSelector:@selector(didScan:error:)]) {
+            [self.resultDelegate didScan:nil error:error];
+        }
     }
 }
 

@@ -8,7 +8,7 @@
 
 #import "WYScanManager.h"
 
-@interface WYScanManager ()
+@interface WYScanManager ()<WYScanOutputSampleBufferDelegate>
 
 @end
 
@@ -57,20 +57,16 @@
     }
     [self.captureSession commitConfiguration];
     
-    [self.receiveSubject subscribeNext:^(id x) {
-        CVImageBufferRef imageBuffer = (__bridge CVImageBufferRef)(x);
-        [self doRec:imageBuffer];
-    }];
-    [self.bankScanSuccess subscribeNext:^(id x) {
-        
-    }];
-    [self.idCardScanSuccess subscribeNext:^(id x) {
-        
-    }];
-    [self.scanError subscribeNext:^(id x) {
-        
-    }];
+    self.outputBufferDelegate = self;
+
     return YES;
+}
+
+#pragma mark- WYScanOutputSampleBufferDelegate
+- (void)didOutputSampleBuffer:(id)sampleBuffer
+{
+    CVImageBufferRef imageBuffer = (__bridge CVImageBufferRef)(sampleBuffer);
+    [self doRec:imageBuffer];
 }
 
 - (void)doRec:(CVImageBufferRef)imageBuffer {

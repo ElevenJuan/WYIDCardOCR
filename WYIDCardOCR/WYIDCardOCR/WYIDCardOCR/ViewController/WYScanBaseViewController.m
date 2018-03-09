@@ -46,6 +46,7 @@
 - (WYScanManager *)cameraManager {
     if (!_cameraManager) {
         _cameraManager = [[WYScanManager alloc] init];
+        _cameraManager.resultDelegate = self;
     }
     return _cameraManager;
 }
@@ -56,7 +57,7 @@
 
 
 //  获取权限状态
-- (void)requestAuthorizationStatus:(void(^)())status
+- (void)requestAuthorizationStatus:(void(^)(void))status
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
